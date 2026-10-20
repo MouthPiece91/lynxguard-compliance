@@ -1,0 +1,57 @@
+# Versioned regulatory parameters for US retail forex.
+#
+# Every number a rule uses lives here, never in code. Each version records:
+#   in_force_from  - earliest date this version is CONFIRMED in force. This is the
+#                    date we verified it against the official source, unless the
+#                    true effective date has been confirmed. Checks dated before the
+#                    earliest version fail loudly instead of guessing.
+#   verified_on    - date a person checked the values against the source.
+#   source         - where the values come from (official source first).
+#
+# To change a value: ADD a new version with a later in_force_from. Never edit an
+# old version - past checks must stay reproducible.
+
+security_deposit:
+  - version: "nfa-fr12-2026"
+    in_force_from: 2026-10-19
+    verified_on: 2026-10-19
+    source:
+      title: "NFA Financial Requirements Section 12(a)"
+      url: "https://www.nfa.futures.org/rulebooksql/rules.aspx?Section=7&RuleID=SECTION+12"
+      note: >
+        Rulebook page lists amendments through 2026-03-18. The exact date the
+        current percentages took effect has not been confirmed, so this version
+        is only asserted from the verification date.
+    # Percent of notional value.
+    major_currency_pct: "2"
+    other_pct: "5"
+    major_currencies: [GBP, CHF, CAD, JPY, EUR, AUD, NZD, SEK, NOK, DKK]
+    # USD is the US dealer's home currency and is not listed in Section 12.
+    # NFA's Forex Regulatory Guide treats EUR/USD as 2% and USD/MXN as 5%, so USD
+    # does not raise or lower a pair's rate; the other currency decides.
+    neutral_currencies: [USD]
+    # Temporary increases under Section 12(b), keyed by currency, e.g. {CHF: "5"}.
+    temporary_overrides: {}
+
+confirmation:
+  - version: "nfa-2-36k-2026"
+    in_force_from: 2026-10-19
+    verified_on: 2026-10-19
+    source:
+      title: "NFA Compliance Rule 2-36(k); CFTC 17 CFR 5.13 (via NFA Forex Regulatory Guide)"
+      url: "https://www.nfa.futures.org/members/member-resources/files/forex-regulatory-guide.html"
+      note: "Written confirmation no later than the next business day after the transaction."
+    # ASSUMPTIONS to confirm with compliance counsel before production use:
+    # which timezone defines the business day, and which holidays are excluded.
+    business_day_timezone: "America/New_York"
+    holidays: []
+
+price_adjustment:
+  - version: "nfa-2-43a-2026"
+    in_force_from: 2026-10-19
+    verified_on: 2026-10-19
+    source:
+      title: "NFA Compliance Rule 2-43(a)"
+      url: "https://www.nfa.futures.org/rulebooksql/rules.aspx?RuleID=RULE+2-43&Section=4"
+      note: "Rulebook lists latest amendment effective 2022-09-15."
+    counterparty_notice_minutes: 15
