@@ -37,6 +37,9 @@ members). Next: **bank risk-limit governance** for small and mid-size banks.
 pip install -e '.[dev]'
 pytest -q
 
+# See it work: six sample trades, findings, a decision and the audit check
+python scripts/demo.py
+
 # Create an API key for an organization
 python -m lynxguard.auth new --org demo --name "demo desk"
 # Save the printed JSON entry to keys.json, then:
